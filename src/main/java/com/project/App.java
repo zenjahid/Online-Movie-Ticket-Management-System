@@ -4,21 +4,19 @@ import java.util.*;
 // online movie ticket management system
 
 public class App {
-
     public static void main(String[] args) {
         boolean is_running = true;
         try (Scanner in = new Scanner(System.in)) {
             ArrayList<genre_wise_movie> movies = new ArrayList<>();
-
             while (is_running) {
                 int movie_id_remove, ticket_count;
                 char cond;
                 String nx = "\n";
                 System.out.print("\t\tWelcome to the Online Movie Ticket Management System" + nx + nx);
                 System.out.print("Please Choose option from below" + nx + nx);
-                System.out.print("1. Show Movies" + nx);
-                System.out.print("2. Add Movie" + nx);
-                System.out.print("3. Remove Movie" + nx);
+                System.out.print("1. Add Movie" + nx);
+                System.out.print("2. Remove Movie" + nx);
+                System.out.print("3. Show Movies" + nx);
                 System.out.print("4. Ticket" + nx);
                 System.out.print("5. Exit Menu" + nx);
 
@@ -37,19 +35,71 @@ public class App {
                     }
                 }
                 switch (choice) {
-                    case 1:
+                    case 3:
                         if (movies.isEmpty()) {
                             System.out
                                     .print("\n\tThere is no movie in the database\n\n\tReturning to Main Menu\n\n\n\n");
                         } else {
                             for (genre_wise_movie index : movies) {
+                                if (index.GenreGetter().equals("action")) {
+                                    System.out.print("\n\tAction Genre Movies\n\n" + nx);
+                                    break;
+                                }
+                            }
+                            for (genre_wise_movie index : movies) {
                                 System.out.print(nx);
-                                index.movie_dettails_genre();
+                                if (index.GenreGetter().equals("action")) {
+                                    index.movie_dettails_genre();
+                                }
                                 System.out.print(nx);
                             }
+
+                            for (genre_wise_movie index : movies) {
+                                if (index.GenreGetter().equals("adventure")) {
+                                    System.out.print("\n\tAdventure Genre Movies\n\n" + nx);
+                                    break;
+                                }
+                            }
+
+                            for (genre_wise_movie index : movies) {
+                                System.out.print(nx);
+                                if (index.GenreGetter().equals("adventure")) {
+                                    index.movie_dettails_genre();
+                                }
+                                System.out.print(nx);
+                            }
+                            for (genre_wise_movie index : movies) {
+                                if (index.GenreGetter().equals("romance")) {
+                                    System.out.print("\n\tRomance Genre Movies\n\n" + nx);
+                                    break;
+                                }
+                            }
+                            for (genre_wise_movie index : movies) {
+                                System.out.print(nx);
+                                if (index.GenreGetter().equals("romance")) {
+                                    index.movie_dettails_genre();
+                                }
+                                System.out.print(nx);
+                            }
+                            for (genre_wise_movie index : movies) {
+                                if (!(index.GenreGetter().equals("action") || index.GenreGetter().equals("adventure")
+                                        || index.GenreGetter().equals("romance"))) {
+                                    System.out.print("\n\tOther Genre Movies\n\n" + nx);
+                                    break;
+                                }
+                            }
+                            for (genre_wise_movie index : movies) {
+                                System.out.print(nx);
+                                if (!(index.GenreGetter().equals("action") || index.GenreGetter().equals("adventure")
+                                        || index.GenreGetter().equals("romance"))) {
+                                    index.movie_dettails_genre();
+                                }
+                                System.out.print(nx);
+                            }
+
                         }
                         break;
-                    case 2:
+                    case 1:
                         String movie_name;
                         String director;
                         String rating;
@@ -160,6 +210,7 @@ public class App {
                         while (true) {
                             try {
                                 genre = in.nextLine();
+                                genre = genre.toLowerCase();
                                 break;
                             } catch (Exception e) {
                                 // in.next();
@@ -189,7 +240,7 @@ public class App {
                             System.exit(0);
                         }
                         break;
-                    case 3:
+                    case 2:
                         System.out.print("Enter the ID you want to remove from theater : ");
 
                         while (true) {
@@ -202,14 +253,23 @@ public class App {
                                 continue;
                             }
                         }
+                        Boolean vt = true;
                         for (Iterator<genre_wise_movie> iterator = movies.iterator(); iterator.hasNext();) {
                             genre_wise_movie movie = iterator.next();
-                            if (movie_id_remove == movie.id_getter())
+                            if (movie_id_remove == movie.id_getter()) {
                                 iterator.remove();
-                            else
-                                System.out.print("No Movie Found by this ID");
+                                System.out
+                                        .print("Movie with ID no " + movie_id_remove + " was removed successfully!!\n");
+                                vt = false;
+                            }
 
                         }
+
+                        if (vt) {
+                            System.out.print("No Movie Found by this ID\n");
+                            break;
+                        }
+
                         System.out.print("Do you want to go back to the main menu ? [y/n] : ");
 
                         while (true) {
@@ -261,10 +321,11 @@ public class App {
                                         continue;
                                     }
                                 }
-
+                                Boolean it = true;
                                 for (Iterator<genre_wise_movie> iterator = movies.iterator(); iterator.hasNext();) {
                                     genre_wise_movie movie = iterator.next();
                                     if (movie_id_remove == movie.id_getter()) {
+                                        it = false;
                                         System.out.print("Enter Ticket Quantity : ");
 
                                         while (true) {
@@ -284,10 +345,11 @@ public class App {
                                         } else {
                                             System.out.print(nx + "There is no more seat for this movie" + nx);
                                         }
-                                    } else
-                                        System.out.print("No Movie Found by this ID");
+                                    }
 
                                 }
+                                if (it)
+                                    System.out.print("No Movie Found by this ID\n");
 
                                 System.out.print("Do you want to go back to the main menu ? [y/n] : ");
 
@@ -322,9 +384,11 @@ public class App {
                                     }
                                 }
 
+                                Boolean buy = true;
                                 for (Iterator<genre_wise_movie> iterator = movies.iterator(); iterator.hasNext();) {
                                     genre_wise_movie movie = iterator.next();
                                     if (movie_id_remove == movie.id_getter()) {
+                                        buy = false;
                                         System.out.print("Enter Ticket Quantity : ");
 
                                         while (true) {
@@ -340,10 +404,11 @@ public class App {
 
                                         movie.price_ref_det(ticket_count);
 
-                                    } else
-                                        System.out.print("No Movie Found by this ID");
+                                    }
 
                                 }
+                                if (buy)
+                                    System.out.print("No Movie Found by this ID\n");
 
                                 System.out.print("Do you want to go back to the main menu ? [y/n] : ");
 

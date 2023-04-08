@@ -34,13 +34,17 @@ public abstract class Movie implements details {
     }
 
     public void price_ref_det(int ticket_count) {
-        this.movie_seat += ticket_count;
-        System.out.println("\n======================================================");
-        System.out.println("Movie ID\tPrice\tQuantity\tTotal Refunded");
-        System.out
-                .println(this.movie_id + "\t\t" + this.price + "\t   " + ticket_count + "\t          "
-                        + (ticket_count * price));
-        System.out.println("======================================================");
+        if (this.movie_seat + ticket_count <= 300) {
+            this.movie_seat += ticket_count;
+            System.out.println("\n======================================================");
+            System.out.println("Movie ID\tPrice\tQuantity\tTotal Refunded");
+            System.out
+                    .println(this.movie_id + "\t\t" + this.price + "\t   " + ticket_count + "\t          "
+                            + (ticket_count * price));
+            System.out.println("======================================================");
+        } else
+            System.out.println("This many tickets were not sold\nRefund invalid\n");
+
         System.out.println();
 
     }
@@ -81,6 +85,10 @@ class genre_wise_movie extends Movie {
     private String genre;
 
     genre_wise_movie() {
+    }
+
+    String GenreGetter() {
+        return this.genre;
     }
 
     genre_wise_movie(String movie_name, String director, String rating, String release_date, String budget, String cast,
